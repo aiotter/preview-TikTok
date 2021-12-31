@@ -17,9 +17,9 @@ type HeadProps = {
 };
 
 const Html: Nano.FC<HeadProps> = (props) => (
-  <html>
+  <html prefix="og: https://ogp.me/ns#">
     <head>
-      <meta charSet="utf-8" />
+      <meta charset="utf-8" />
       <link
         rel="icon"
         href="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png"
@@ -49,7 +49,7 @@ export async function createHtml(url: string) {
       description={data.title}
       image={data.thumbnail_url}
     >
-    <body><div dangerouslySetInnerHTML={{ __html: data.html }} /></body>
+    <body dangerouslySetInnerHTML={{ __html: data.html }} />
     </Html>
   ));
 }
