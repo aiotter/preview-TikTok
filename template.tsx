@@ -13,44 +13,43 @@ type HeadProps = {
   title: string;
   description: string;
   image: string;
-  redirect: string;
+  children: unknown;
 };
 
-const Head = (props: HeadProps) => (
-  <head>
-    <meta charSet="utf-8" />
-    <link
-      rel="icon"
-      href="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png"
-    />
-    <meta property="og:title" content={props.title} />
-    <meta property="og:description" content={props.description} />
-    <meta property="og:url" content={props.url} />
-    <meta property="og:image" content={props.image} />
-    <meta property="og:site-name" content="TikTok" />
+const Html: Nano.FC<HeadProps> = (props) => (
+  <html>
+    <head>
+      <meta charSet="utf-8" />
+      <link
+        rel="icon"
+        href="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png"
+      />
+      <meta property="og:title" content={props.title} />
+      <meta property="og:description" content={props.description} />
+      <meta property="og:url" content={props.url} />
+      <meta property="og:image" content={props.image} />
+      <meta property="og:site-name" content="TikTok" />
 
-    <meta name="twitter:card" content="player" />
-    <meta name="twitter:site" content="@tiktok_us" />
-    <meta name="twitter:title" content={props.title} />
-    <script>
-      window.location.href = "{props.redirect}";
-    </script>
-  </head>
+      <meta name="twitter:card" content="player" />
+      <meta name="twitter:site" content="@tiktok_us" />
+      <meta name="twitter:title" content={props.title} />
+    </head>
+    {props.children}
+  </html>
 );
 
-export async function createHtml(url: string, redirect: string) {
+export async function createHtml(url: string) {
   const response = await fetch(url);
   const data = await response.json();
 
-  const head = Nano.renderSSR(() => (
-    <Head
+  return Nano.renderSSR(() => (
+    <Html
       url={url}
       title={data.author_name}
       description={data.title}
       image={data.thumbnail_url}
-      redirect={redirect}
-    />
+    >
+    <body><div dangerouslySetInnerHTML={{ __html: data.html }} /></body>
+    </Html>
   ));
-
-  return `<html>${head}</html>`;
 }
