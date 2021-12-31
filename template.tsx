@@ -32,7 +32,9 @@ const Head = (props: HeadProps) => (
     <meta name="twitter:card" content="player" />
     <meta name="twitter:site" content="@tiktok_us" />
     <meta name="twitter:title" content={props.title} />
-    <meta http-equiv="Refresh" content={`0; url='${props.redirect}'`} />
+    <script>
+      window.location.href = "{props.redirect}";
+    </script>
   </head>
 );
 
