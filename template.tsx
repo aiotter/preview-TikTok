@@ -9,10 +9,11 @@
 import * as Nano from "https://deno.land/x/nano_jsx@v0.0.26/mod.ts";
 
 type HeadProps = {
-  url: string;
+  originalUrl: string;
   title: string;
   description: string;
   image: string;
+  redirectUrl: string;
   children?: unknown;
 };
 
@@ -26,31 +27,31 @@ const Html: Nano.FC<HeadProps> = (props) => (
       />
       <meta property="og:title" content={props.title} />
       <meta property="og:description" content={props.description} />
-      <meta property="og:url" content={props.url} />
+      <meta property="og:url" content={props.originalUrl} />
       <meta property="og:image" content={props.image} />
       <meta property="og:site-name" content="TikTok" />
 
       <meta name="twitter:card" content="player" />
       <meta name="twitter:site" content="@tiktok_us" />
       <meta name="twitter:title" content={props.title} />
-      <meta name="twitter:player" content={'/player?url=' + props.url} />
+      <meta name="twitter:player" content={'/player?url=' + props.originalUrl} />
+      <meta http-equiv="Refresh" content={`0; url='${props.redirectUrl}'`} />
     </head>
     {props.children}
   </html>
 );
 
-export async function createHtml(url: string) {
-  const response = await fetch(url);
+export async function createHtml(originalUrl: string, redirectUrl: string) {
+  const response = await fetch(originalUrl);
   const data = await response.json();
 
   return Nano.renderSSR(() => (
     <Html
-      url={url}
+      originalUrl={originalUrl}
       title={data.author_name}
       description={data.title}
       image={data.thumbnail_url}
-    >
-    <body dangerouslySetInnerHTML={{ __html: data.html }} />
-    </Html>
+      redirectUrl={redirectUrl}
+    />
   ));
 }

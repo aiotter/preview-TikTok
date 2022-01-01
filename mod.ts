@@ -9,7 +9,7 @@ serve(async (req: Request) => {
     if (!originalUrl) return new Response(null, { status: 404 });
     const oembedUrl = "https://www.tiktok.com/oembed?url=" + originalUrl;
     return new Response(
-      "<!DOCTYPE html>" + await createHtml(oembedUrl),
+      "<!DOCTYPE html>" + await createHtml(oembedUrl, originalUrl),
       {
         status: 200,
         headers: new Headers({ "content-type": "html" }),
