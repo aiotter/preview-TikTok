@@ -21,6 +21,8 @@ serve(async (req: Request) => {
     const response = await fetch(oembedUrl);
     const data = await response.json();
     return new Response(data.html);
+  } else if (requestUrl.pathname === "/robots.txt") {
+    return new Response(`User-agent: *\nDisallow:\n`);
   } else {
     return new Response(null, { status: 404 });
   }
