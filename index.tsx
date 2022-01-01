@@ -70,5 +70,7 @@ export default async function (req: Request) {
       <body dangerouslySetInnerHTML={{ __html: oembedData.html }} />
     </Html>
   ));
-  return new Response("<!DOCTYPE html>" + html);
+  return new Response("<!DOCTYPE html>" + html, {
+    headers: new Headers({ "Content-Type": "text/html" }),
+  });
 }
