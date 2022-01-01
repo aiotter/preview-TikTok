@@ -13,7 +13,7 @@ type HeadProps = {
   title: string;
   description: string;
   image: string;
-  children: unknown;
+  children?: unknown;
 };
 
 const Html: Nano.FC<HeadProps> = (props) => (
@@ -33,6 +33,7 @@ const Html: Nano.FC<HeadProps> = (props) => (
       <meta name="twitter:card" content="player" />
       <meta name="twitter:site" content="@tiktok_us" />
       <meta name="twitter:title" content={props.title} />
+      <meta name="twitter:player" content={'/player?url=' + props.url} />
     </head>
     {props.children}
   </html>
