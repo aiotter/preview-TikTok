@@ -40,8 +40,8 @@ const Html: Nano.FC<HeadProps> = (props) => (
         name="twitter:player"
         content={props.base + "/player?url=" + props.originalUrl}
       />
-      <meta name="twitter:player:width" content="540" />
-      <meta name="twitter:player:height" content="728" />
+      <meta name="twitter:player:width" content="420" />
+      <meta name="twitter:player:height" content="900" />
       <meta name="twitter:image" content={props.image} />
       <meta http-equiv="Refresh" content={`0; url='${props.redirectUrl}'`} />
     </head>
