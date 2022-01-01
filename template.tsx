@@ -26,10 +26,11 @@ const Html: Nano.FC<HeadProps> = (props) => (
         href="https://lf16-tiktok-web.ttwstatic.com/obj/tiktok-web-common-sg/mtact/static/images/logo_144c91a.png"
       />
       <meta property="og:title" content={props.title} />
+      <meta property="og:type" content="video.movie" />
       <meta property="og:description" content={props.description} />
       <meta property="og:url" content={props.originalUrl} />
       <meta property="og:image" content={props.image} />
-      <meta property="og:site-name" content="TikTok" />
+      <meta property="og:site_name" content="TikTok" />
 
       <meta name="twitter:card" content="player" />
       <meta name="twitter:site" content="@tiktok_us" />
