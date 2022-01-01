@@ -7,13 +7,7 @@ serve(async (req: Request) => {
   if (requestUrl.pathname === "/") {
     const originalUrl = requestUrl.searchParams.get("url");
     if (!originalUrl) return new Response(null, { status: 404 });
-    return new Response(
-      "<!DOCTYPE html>" + await createHtml(originalUrl),
-      {
-        status: 200,
-        headers: new Headers({ "content-type": "html" }),
-      },
-    );
+    return new Response("<!DOCTYPE html>" + await createHtml(originalUrl));
   } else if (requestUrl.pathname === "/player") {
     const originalUrl = requestUrl.searchParams.get("url");
     if (!originalUrl) return new Response(null, { status: 404 });
