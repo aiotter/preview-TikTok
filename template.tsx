@@ -35,7 +35,9 @@ const Html: Nano.FC<HeadProps> = (props) => (
       <meta name="twitter:site" content="@tiktok_us" />
       <meta name="twitter:title" content={props.title} />
       <meta name="twitter:player" content={'/player?url=' + props.originalUrl} />
-      <meta http-equiv="Refresh" content={`0; url='${props.redirectUrl}'`} />
+      <script>
+        window.location = "{props.originalUrl}";
+      </script>
     </head>
     {props.children}
   </html>
