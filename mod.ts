@@ -6,8 +6,9 @@ serve(async (req: Request) => {
   const requestUrl = new URL(req.url);
   if (requestUrl.pathname === "/") {
     const originalUrl = requestUrl.searchParams.get("url");
+    const urlBase = requestUrl.origin;
     if (!originalUrl) return new Response(null, { status: 404 });
-    return new Response("<!DOCTYPE html>" + await createHtml(originalUrl));
+    return new Response("<!DOCTYPE html>" + await createHtml(originalUrl, urlBase));
   } else if (requestUrl.pathname === "/player") {
     const originalUrl = requestUrl.searchParams.get("url");
     if (!originalUrl) return new Response(null, { status: 404 });

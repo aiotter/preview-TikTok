@@ -9,6 +9,7 @@
 import * as Nano from "https://deno.land/x/nano_jsx@v0.0.26/mod.ts";
 
 type HeadProps = {
+  base: string;
   originalUrl: string;
   title: string;
   description: string;
@@ -37,7 +38,7 @@ const Html: Nano.FC<HeadProps> = (props) => (
       <meta name="twitter:title" content={props.title} />
       <meta
         name="twitter:player"
-        content={"/player?url=" + props.originalUrl}
+        content={props.base + "/player?url=" + props.originalUrl}
       />
       <meta name="twitter:player:width" content="540" />
       <meta name="twitter:player:height" content="728" />
@@ -47,13 +48,14 @@ const Html: Nano.FC<HeadProps> = (props) => (
   </html>
 );
 
-export async function createHtml(originalUrl: string) {
+export async function createHtml(originalUrl: string, urlBase: string) {
   const oembedUrl = "https://www.tiktok.com/oembed?url=" + originalUrl;
   const response = await fetch(oembedUrl);
   const data = await response.json();
 
   return Nano.renderSSR(() => (
     <Html
+      base={urlBase}
       originalUrl={originalUrl}
       title={data.author_name}
       description={data.title}
