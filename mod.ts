@@ -1,21 +1,14 @@
-import { createHtml } from "./template.tsx";
+import index from "./index.tsx";
+import player from "./player.tsx";
 import { serve } from "https://deno.land/std@0.119.0/http/mod.ts";
 
 // expect "/?url=https://tiktok.com/..."
 serve(async (req: Request) => {
   const requestUrl = new URL(req.url);
   if (requestUrl.pathname === "/") {
-    const originalUrl = requestUrl.searchParams.get("url");
-    const urlBase = requestUrl.origin;
-    if (!originalUrl) return new Response(null, { status: 404 });
-    return new Response("<!DOCTYPE html>" + await createHtml(originalUrl, urlBase));
+    return await index(req);
   } else if (requestUrl.pathname === "/player") {
-    const originalUrl = requestUrl.searchParams.get("url");
-    if (!originalUrl) return new Response(null, { status: 404 });
-    const oembedUrl = "https://www.tiktok.com/oembed?url=" + originalUrl;
-    const response = await fetch(oembedUrl);
-    const data = await response.json();
-    return new Response(data.html);
+    return await player(req);
   } else if (requestUrl.pathname === "/robots.txt") {
     return new Response(`User-agent: *\nDisallow:\n`);
   } else {

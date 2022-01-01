@@ -48,21 +48,27 @@ const Html: Nano.FC<HeadProps> = (props) => (
   </html>
 );
 
-export async function createHtml(originalUrl: string, urlBase: string) {
-  const oembedUrl = "https://www.tiktok.com/oembed?url=" + originalUrl;
-  const response = await fetch(oembedUrl);
-  const data = await response.json();
+export default async function (req: Request) {
+  const requestUrl = new URL(req.url);
+  const originalUrl = requestUrl.searchParams.get("url");
 
-  return Nano.renderSSR(() => (
+  if (!originalUrl) return new Response(null, { status: 404 });
+
+  const oembedUrl = "https://www.tiktok.com/oembed?url=" + originalUrl;
+  const oembedResponse = await fetch(oembedUrl);
+  const oembedData = await oembedResponse.json();
+
+  const html = Nano.renderSSR(() => (
     <Html
-      base={urlBase}
+      base={requestUrl.origin}
       originalUrl={originalUrl}
-      title={data.author_name}
-      description={data.title}
-      image={data.thumbnail_url}
+      title={oembedData.author_name}
+      description={oembedData.title}
+      image={oembedData.thumbnail_url}
       redirectUrl={originalUrl}
     >
-      <body dangerouslySetInnerHTML={{ __html: data.html }} />
+      <body dangerouslySetInnerHTML={{ __html: oembedData.html }} />
     </Html>
   ));
+  return new Response("<!DOCTYPE html>" + html);
 }
