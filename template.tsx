@@ -41,8 +41,9 @@ const Html: Nano.FC<HeadProps> = (props) => (
   </html>
 );
 
-export async function createHtml(originalUrl: string, redirectUrl: string) {
-  const response = await fetch(originalUrl);
+export async function createHtml(originalUrl: string) {
+  const oembedUrl = "https://www.tiktok.com/oembed?url=" + originalUrl;
+  const response = await fetch(oembedUrl);
   const data = await response.json();
 
   return Nano.renderSSR(() => (
@@ -51,7 +52,7 @@ export async function createHtml(originalUrl: string, redirectUrl: string) {
       title={data.author_name}
       description={data.title}
       image={data.thumbnail_url}
-      redirectUrl={redirectUrl}
+      redirectUrl={originalUrl}
     />
   ));
 }
