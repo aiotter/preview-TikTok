@@ -43,6 +43,7 @@ const Html: Nano.FC<HeadProps> = (props) => (
       <meta name="twitter:player:width" content="540" />
       <meta name="twitter:player:height" content="728" />
       <meta name="twitter:image" content={props.image} />
+      <meta http-equiv="Refresh" content={`0; url='${props.redirectUrl}'`} />
     </head>
     {props.children}
   </html>
@@ -66,9 +67,7 @@ export default async function (req: Request) {
       description={oembedData.title}
       image={oembedData.thumbnail_url}
       redirectUrl={originalUrl}
-    >
-      <body dangerouslySetInnerHTML={{ __html: oembedData.html }} />
-    </Html>
+    />
   ));
   return new Response("<!DOCTYPE html>" + html, {
     headers: new Headers({ "Content-Type": "text/html" }),
