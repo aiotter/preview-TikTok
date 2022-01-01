@@ -34,10 +34,10 @@ const Html: Nano.FC<HeadProps> = (props) => (
       <meta name="twitter:card" content="player" />
       <meta name="twitter:site" content="@tiktok_us" />
       <meta name="twitter:title" content={props.title} />
-      <meta name="twitter:player" content={'/player?url=' + props.originalUrl} />
-      <script>
-        window.location = "{props.originalUrl}";
-      </script>
+      <meta
+        name="twitter:player"
+        content={"/player?url=" + props.originalUrl}
+      />
     </head>
     {props.children}
   </html>
@@ -55,6 +55,8 @@ export async function createHtml(originalUrl: string) {
       description={data.title}
       image={data.thumbnail_url}
       redirectUrl={originalUrl}
-    />
+    >
+      <body dangerouslySetInnerHTML={{ __html: data.html }} />
+    </Html>
   ));
 }
